@@ -29,14 +29,14 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function applyTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme)
+    document.documentElement.setAttribute("data-theme", theme)
   }
 
   function detectSystemTheme() {
     const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)")
-    applyTheme(darkThemeMq.matches ? 'dark' : 'light')
-    darkThemeMq.addEventListener('change', (e) => {
-      applyTheme(e.matches ? 'dark' : 'light')
+    applyTheme(darkThemeMq.matches ? "dark" : "light")
+    darkThemeMq.addEventListener("change", (e) => {
+      applyTheme(e.matches ? "dark" : "light")
     })
   }
 
@@ -58,8 +58,8 @@ document.addEventListener("DOMContentLoaded", function () {
       startTime: null,
       pausedTimeRemaining: null,
       duration: null, // Added to track current phase duration
-      POMODORO_WORK: 15 * 1000, // 25 minutes for work
-      POMODORO_BREAK: 5 * 1000, // 5 minutes for break
+      POMODORO_WORK: 25 * 60 * 1000, // 25 minutes in milliseconds
+      POMODORO_BREAK: 5 * 60 * 1000, // 5 minutes in milliseconds
     }
 
     // Event Bindings
@@ -401,46 +401,46 @@ function formatTime(milliseconds) {
 }
 
 function updateTimer(elements, state) {
-    const timerProgress = document.querySelector('.timer-progress');
-    const workLine = document.querySelector('.work-line');
-    const breakLine = document.querySelector('.break-line');
+  const timerProgress = document.querySelector(".timer-progress")
+  const workLine = document.querySelector(".work-line")
+  const breakLine = document.querySelector(".break-line")
 
-    if (!state.isPomodoroActive) {
-        elements.timerCountdown.textContent = formatTime(state.POMODORO_WORK);
-        timerProgress.style.strokeDashoffset = '283';
-        workLine.style.stroke = 'var(--work-color)';
-        breakLine.style.stroke = 'var(--break-color)';
-        return;
-    }
+  if (!state.isPomodoroActive) {
+    elements.timerCountdown.textContent = formatTime(state.POMODORO_WORK)
+    timerProgress.style.strokeDashoffset = "283"
+    workLine.style.stroke = "var(--work-color)"
+    breakLine.style.stroke = "var(--break-color)"
+    return
+  }
 
-    if (state.isPaused && state.pausedTimeRemaining) {
-        elements.timerCountdown.textContent = formatTime(state.pausedTimeRemaining);
-        return;
-    }
+  if (state.isPaused && state.pausedTimeRemaining) {
+    elements.timerCountdown.textContent = formatTime(state.pausedTimeRemaining)
+    return
+  }
 
-    const duration = state.isWorkTime ? state.POMODORO_WORK : state.POMODORO_BREAK;
-    const remaining = Math.max(0, state.startTime + duration - Date.now());
-    const progress = remaining / duration;
+  const duration = state.isWorkTime ? state.POMODORO_WORK : state.POMODORO_BREAK
+  const remaining = Math.max(0, state.startTime + duration - Date.now())
+  const progress = remaining / duration
 
-    elements.timerCountdown.textContent = formatTime(remaining);
+  elements.timerCountdown.textContent = formatTime(remaining)
 
-    // Update circular progress
-    const circumference = 2 * Math.PI * 45; // 45 is radius from SVG
-    const offset = circumference - (progress * circumference);
-    timerProgress.style.strokeDashoffset = offset;
+  // Update circular progress
+  const circumference = 2 * Math.PI * 45 // 45 is radius from SVG
+  const offset = circumference - progress * circumference
+  timerProgress.style.strokeDashoffset = offset
 
-    // Update line colors based on active phase
-    if (state.isWorkTime) {
-        workLine.style.stroke = 'var(--work-color)';
-        breakLine.style.stroke = 'var(--inactive-color)';
-    } else {
-        workLine.style.stroke = 'var(--inactive-color)';
-        breakLine.style.stroke = 'var(--break-color)';
-    }
+  // Update line colors based on active phase
+  if (state.isWorkTime) {
+    workLine.style.stroke = "var(--work-color)"
+    breakLine.style.stroke = "var(--inactive-color)"
+  } else {
+    workLine.style.stroke = "var(--inactive-color)"
+    breakLine.style.stroke = "var(--break-color)"
+  }
 
-    if (remaining > 0 && state.isPomodoroActive && !state.isPaused) {
-        requestAnimationFrame(() => updateTimer(elements, state));
-    }
+  if (remaining > 0 && state.isPomodoroActive && !state.isPaused) {
+    requestAnimationFrame(() => updateTimer(elements, state))
+  }
 }
 
 function startPomodoro(elements, state) {
