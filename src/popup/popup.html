@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="popup.css">
+    <title>Task Manager</title>
+</head>
+
+<body>
+    <div id="task-manager">
+        <header class="app-header">
+            <h1>📝 My Tasks</h1>
+        </header>
+
+        <div class="tab-content">
+            <div id="tasks-tab" class="tab-pane active">
+                <section class="task-section">
+                    <div class="task-input-group">
+                        <input type="text" id="task-input" placeholder="Add a new task">
+                        <button id="add-task-btn" class="primary-btn">Add Task</button>
+                    </div>
+                    <ul id="task-list" class="task-list"></ul>
+                </section>
+            </div>
+
+            <div id="pomodoro-tab" class="tab-pane">
+                <section class="pomodoro-section">
+                    <div id="pomodoro-status">Pomodoro Inactive</div>
+                    <div class="timer-circle">
+                        <svg class="timer-svg" viewBox="0 0 100 100">
+                            <!-- Background circle -->
+                            <circle class="timer-background" cx="50" cy="50" r="45" />
+                            <!-- Progress circle -->
+                            <circle class="timer-progress" cx="50" cy="50" r="45" />
+                            <!-- Clock markers -->
+                            <line class="clock-line work-line" x1="50" y1="50" x2="50" y2="10" />
+                            <line class="clock-line break-line" x1="50" y1="50" x2="75" y2="50" />
+                            <!-- Center dot -->
+                            <circle class="timer-dot" cx="50" cy="50" r="3" />
+                        </svg>
+                        <div id="timer-countdown" class="timer-text">25:00</div>
+                    </div>
+                    <div class="timer-controls">
+                        <button id="start-pomodoro" class="primary-btn">Start</button>
+                        <button id="pause-pomodoro" class="secondary-btn" disabled>Pause</button>
+                        <button id="reset-pomodoro" class="secondary-btn">Reset</button>
+                    </div>
+                </section>
+            </div>
+
+            <div id="reminders-tab" class="tab-pane">
+                <section class="reminders-section">
+                    <ul id="reminders-list" class="reminders-list"></ul>
+                </section>
+
+            </div>
+        </div>
+
+        <nav class="tab-navigation">
+            <button class="tab-btn active" data-tab="tasks-tab">
+                📝 Tasks
+            </button>
+            <button class="tab-btn" data-tab="pomodoro-tab">
+                ⏲️ Pomodoro
+            </button>
+            <button class="tab-btn" data-tab="reminders-tab">
+                🔔 Reminders
+            </button>
+        </nav>
+    </div>
+    <script type="module" src="popup.js"></script>
+</body>
+
+</html>
